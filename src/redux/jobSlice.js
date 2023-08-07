@@ -46,6 +46,52 @@ const jobSlice = createSlice({
         (job) => job.type === action.payload
       );
     },
+
+    // sıralma işlemlerini yapar
+    sortJobs: (state, action) => {
+      switch (action.payload) {
+        case 'a-z':
+          state.filtredJobs.sort((a, b) => {
+            // eğerki a objesinin şirket ismi alfabede sıra olarak
+            // b'den gerideyse a objesini b'ye göre daha ön sıraya koy
+            // ! sort dizideki bütün elemanlar için bu sorguyu gerçekleştitir
+            if (a.company < b.company) return -1;
+            if (a.company > b.company) return 1;
+            return 0;
+          });
+          break;
+        case 'z-a':
+          state.filtredJobs.sort((a, b) => {
+            // eğerki a objesinin şirket ismi alfabede sıra olarak
+            // b'den gerideyse a objesini b'ye göre daha ön sıraya koy
+            // ! sort dizideki bütün elemanlar için bu sorguyu gerçekleştitir
+            if (a.company < b.company) return 1;
+            if (a.company > b.company) return -1;
+            return 0;
+          });
+
+        case 'En Yeni':
+          state.filtredJobs.sort(
+            (a, b) => new Date(b.date) - new Date(a.date)
+          );
+          break;
+
+        case 'En Eski':
+          state.filtredJobs.sort(
+            (a, b) => new Date(a.date) - new Date(b.date)
+          );
+
+        default:
+          break;
+      }
+
+      return state;
+    },
+
+    // filtreli temizle
+    clearFilters: (state) => {
+      state.filtredJobs = state.jobs;
+    },
   },
 });
 
@@ -55,6 +101,8 @@ export const {
   filterBySearch,
   filterByStatus,
   filterByType,
+  sortJobs,
+  clearFilters,
 } = jobSlice.actions;
 
 export default jobSlice.reducer;

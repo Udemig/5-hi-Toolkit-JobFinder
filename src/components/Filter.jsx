@@ -8,6 +8,8 @@ import {
   filterBySearch,
   filterByStatus,
   filterByType,
+  sortJobs,
+  clearFilters,
 } from '../redux/jobSlice';
 import { useDispatch } from 'react-redux';
 
@@ -27,6 +29,11 @@ const Filter = () => {
   // type selecti değişince çalışır
   const handleType = (e) => {
     dispatch(filterByType(e.target.value));
+  };
+
+  // sırlamayı ele alır
+  const handleSort = (e) => {
+    dispatch(sortJobs(e.target.value));
   };
 
   return (
@@ -57,14 +64,19 @@ const Filter = () => {
         </div>
         <div className="field">
           <label>Sırala</label>
-          <select>
+          <select onChange={handleSort}>
             {sortOptions.map((opt, i) => (
               <option key={i}>{opt}</option>
             ))}
           </select>
         </div>
 
-        <button>Filtreleri Temizle</button>
+        <button
+          type="button"
+          onClick={() => dispatch(clearFilters())}
+        >
+          Filtreleri Temizle
+        </button>
       </form>
     </section>
   );

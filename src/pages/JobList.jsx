@@ -8,7 +8,7 @@ const JobList = () => {
   const dispatch = useDispatch();
   const state = useSelector((store) => store);
 
-  console.log(state);
+  console.log(state?.filtredJobs);
 
   useEffect(() => {
     axios
